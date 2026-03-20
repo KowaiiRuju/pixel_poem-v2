@@ -121,13 +121,37 @@
 }
 
 /* Collapsed player */
+/* Update your collapsed player styling */
 #music-player.collapsed {
-  max-height: 80px;
+  max-height: 100px; /* Slight increase to ensure controls and title fit comfortably */
   overflow: hidden;
-  padding: 10px;
+  padding: 10px 15px;
   min-width: 0;
 }
 
+/* Hide the logo and native audio player when minimized */
+#music-player.collapsed #music-logo,
+#music-player.collapsed audio {
+  display: none;
+}
+
+/* Ensure the title stays on one line and adds '...' if it's too long */
+#music-player.collapsed #track-title {
+  display: block;
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+/* Optional: Smoothly rotate your minimize icon so it acts as a maximize icon */
+#minimize-btn .material-icons {
+  transition: transform 0.3s ease;
+}
+
+#music-player.collapsed #minimize-btn .material-icons {
+  transform: rotate(180deg); /* Flips the icon upside down */
+}
 /* Responsive styles for mobile */
 @media (max-width: 600px) {
   #music-player-container {

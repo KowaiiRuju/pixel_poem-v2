@@ -5,45 +5,272 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome Page</title>
     <meta name="description" content="Welcome Traveller, ease your mind and check in to the Inn." />
+    
     <link rel="stylesheet" href="css/styling.css" />
     <link rel="stylesheet" href="css/music_player.css" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Micro+5&family=Tiny5&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Micro+5&family=Tiny5&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Indie+Flower&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+      /* --- MODAL SHARED STYLING --- */
+      dialog.custom-modal {
+        border: 2px solid #a0d2eb;
+        background-color: #fffdfd;
+        background-image: repeating-linear-gradient(
+          to bottom,
+          #fffdfd,
+          #fffdfd 28px,
+          #d4e5f5 30px
+        );
+        color: #5a4b42;
+        padding: 30px 20px;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        margin: auto;
+      }
+
+      dialog.custom-modal::backdrop {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #ff80ab;
+        font-size: 2rem;
+        cursor: pointer;
+        font-family: 'Tiny5', sans-serif;
+        transition: transform 0.2s ease;
+      }
+
+      .close-btn:hover {
+        transform: scale(1.2);
+        color: #ff3b3b;
+      }
+
+      dialog:not([open]) {
+        display: none;
+      }
+
+      /* Poem Modal Specifics */
+      #poem-modal-content p {
+        font-family: 'Indie Flower', cursive;
+        font-size: 1.2em;
+        text-align: center;
+        margin: 0;
+        line-height: 1.6;
+      }
+      .stanza-break {
+        height: 1.5em;
+      }
+    </style>
   </head>
   <body>
-    <!-- Music Player Widget -->
-    
-
-    <!-- Navigation Links -->
-    <div class="nav-links" style="margin-bottom: 50px; position: absolute; left: 30px; top: 20px; z-index: 2000;">
-      <a href="profile.html" class="nav-link">Profile</a>
+    <div class="nav-links" style="position: absolute; left: 30px; top: 20px; z-index: 2000;">
+      <a href="#" id="open-profile" class="nav-link">Profile</a>
     </div>
+
     <div id="music-player-container">
       <div id="music-player">
-        
-        <audio id="audio"></audio>
-        <!-- Controls -->
-        <div id="player-controls">
-          <button id="prev">⏮️</button>
-          <button id="play-pause">▶️</button>
-          <button id="next">⏭️</button>
-          <button id="minimize-btn" title="Minimize Player">–</button>
+        <div id="music-logo">
+          <img src="images/music_logo.png" alt="Music Logo" draggable="false" />
         </div>
-        <span id="track-title">Loading...</span>
+        <audio id="audio" preload="none" tabindex="0" aria-label="Audio Player"></audio>
+        <div id="player-controls">
+          <button id="prev" aria-label="Previous Track"><span class="material-icons">skip_previous</span></button>
+          <button id="play-pause" aria-label="Play/Pause"><span class="material-icons">play_circle</span></button>
+          <button id="next" aria-label="Next Track"><span class="material-icons">skip_next</span></button>
+          <button id="minimize-btn" aria-label="Minimize Player" title="Minimize Player"><span class="material-icons">expand_less</span></button>
+        </div>
+        <span id="track-title">Now Playing: </span>
         <div id="music-queue" style="display:none;"></div>
       </div>
     </div>
 
-    <div class="links" style="margin-top: 125px;">
+    <dialog id="profile-modal" class="custom-modal">
+      <button class="close-btn" id="close-profile">×</button>
+      
+      <h1 class="floating-letters" style="text-align: center; font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Inn Keeper's Profile</h1>
+      <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <img class="pfp" src="images/pfp_emman.jpg" alt="Profile Picture" draggable="false" style="width: 120px; border-radius: 12px; border: 2px solid #a0d2eb;"/>
+      </div>
+
+      <div style="text-align: left; font-family: 'Tiny5', sans-serif;">
+        <p>Name: <em>Pogi UwU</em></p>
+        <p>Age: <em id="age"></em></p> 
+        <p>Course:<em> BS Computer Science</em></p>
+        <p>Race: <em>Human</em></p>
+        <p>Gender:<em> M</em></p>
+      </div>
+
+      <h2 style="border-bottom: 1px dashed #a0d2eb; padding-bottom: 5px; font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Bio</h2>
+      <p style="color: #5a4b42">
+        <em>
+          Born on December 24, 2003, he had always been easy-going. He didn't
+          strive for anything. But now that he's actively pursuing something,
+          only God can tell what lies ahead of him.
+        </em>
+      </p>
+
+      <h2 style="font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Other Information</h2>
+      <p>Likes: <em>Chocolate, RPG Games</em></p>
+      <p>Hobbies: <em> Chess, 2D Art Illustration</em></p>
+
+      <h2 style="font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Socials</h2>
+      <div style="display: flex; justify-content: space-evenly; margin-top: 10px;">
+        <a class="soc-links" href="https://github.com/KowaiiRuju/"><img src="images/icons8-github-32.png" alt="github" /></a>
+        <a class="soc-links" href="https://www.instagram.com/ruju.pi"><img src="images/icons8-instagram-old-32.png" alt="Instagram" /></a>
+      </div>
+
+      <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; font-family: 'Tiny5', sans-serif; opacity: 0.7;">"Everything Goes On"</p>
+    </dialog>
+
+
+    <div class="links" style="margin-top: 150px; text-align: center;">
       <a href="#" class="nav-link" id="toggle-poems">Click Me!</a>
     </div>
-    <div class="container" id="poem-list" style="display: none;"></div>
+    
+    <div class="container" id="poem-list" style="display: none; margin: 20px auto;"></div>
 
-    <script src="scripts/scripts.js" defer></script>
+
+    <dialog id="poem-modal" class="custom-modal">
+      <button class="close-btn" id="close-poem">×</button>
+      <h2 id="poem-modal-title" style="font-family: 'Edu NSW ACT Cursive', cursive; font-size: 2.5em; text-align: center; color: #6b6bff; margin-bottom: 20px;"></h2>
+      <div id="poem-modal-content">
+        </div>
+    </dialog>
+
     <script src="scripts/music_player.js" defer></script>
+    <script>
+      // ---------------------------------------------------
+      // 1. AGE CALCULATOR
+      // ---------------------------------------------------
+      const birthDate = new Date(2003, 11, 24); // December is 11
+      function calculateAge(date) {
+        const today = new Date();
+        let age = today.getFullYear() - date.getFullYear();
+        const monthDiff = today.getMonth() - date.getMonth();
+        const dayDiff = today.getDate() - date.getDate();
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+          age--;
+        }
+        return age;
+      }
+
+      // ---------------------------------------------------
+      // 2. MODAL LOGIC (PROFILE & POEMS)
+      // ---------------------------------------------------
+      const profileModal = document.querySelector("#profile-modal");
+      const poemModal = document.querySelector("#poem-modal");
+
+      // Setup close clicking outside bounds for any modal
+      function setupBackdropClick(modal) {
+        modal.addEventListener("click", (e) => {
+          const dim = modal.getBoundingClientRect();
+          if (e.clientX < dim.left || e.clientX > dim.right || e.clientY < dim.top || e.clientY > dim.bottom) {
+            modal.close();
+          }
+        });
+      }
+
+      // ---------------------------------------------------
+      // 3. POEM FETCHING & RENDERING LOGIC
+      // ---------------------------------------------------
+      async function loadPoemsList() {
+        const container = document.getElementById('poem-list');
+        try {
+          const response = await fetch('res/poems.json');
+          const poems = await response.json();
+
+          container.innerHTML = ''; // Clear
+          poems.forEach(poem => {
+            const link = document.createElement('a');
+            link.className = 'poem-link';
+            link.href = "#"; // Prevent navigation
+            link.textContent = `${poem.id}. ${poem.title}`;
+            link.style.display = 'block';
+            link.style.margin = '10px 0';
+            link.style.fontFamily = "'Tiny5', sans-serif";
+            link.style.fontSize = "1.3em";
+
+            // When clicked, open the modal instead of new page
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              openPoemModal(poem);
+            });
+
+            container.appendChild(link);
+          });
+        } catch (error) {
+          container.textContent = 'Could not load poems. Make sure res/poems.json exists and you are running a local server.';
+          console.error('Error loading poems:', error);
+        }
+      }
+
+      function openPoemModal(poem) {
+        const titleEl = document.getElementById('poem-modal-title');
+        const contentEl = document.getElementById('poem-modal-content');
+
+        titleEl.textContent = poem.title;
+        contentEl.innerHTML = ''; // Clear old poem
+
+        // Format the lines beautifully
+        const lines = poem.text.split('\n');
+        lines.forEach(line => {
+          if (line.trim() === '') {
+            const spacer = document.createElement('div');
+            spacer.className = 'stanza-break';
+            contentEl.appendChild(spacer);
+          } else {
+            const p = document.createElement('p');
+            p.textContent = line;
+            contentEl.appendChild(p);
+          }
+        });
+
+        poemModal.showModal();
+      }
+
+      // ---------------------------------------------------
+      // 4. INITIALIZE EVERYTHING ON LOAD
+      // ---------------------------------------------------
+      document.addEventListener("DOMContentLoaded", () => {
+        // Set Age
+        const ageElement = document.getElementById("age");
+        if (ageElement) ageElement.textContent = calculateAge(birthDate);
+
+        // Profile Modal Listeners
+        document.querySelector("#open-profile").addEventListener("click", (e) => {
+          e.preventDefault();
+          profileModal.showModal();
+        });
+        document.querySelector("#close-profile").addEventListener("click", () => profileModal.close());
+        setupBackdropClick(profileModal);
+
+        // Poem Modal Listeners
+        document.querySelector("#close-poem").addEventListener("click", () => poemModal.close());
+        setupBackdropClick(poemModal);
+
+        // Toggle Poem List Button
+        document.getElementById('toggle-poems').addEventListener('click', (e) => {
+          e.preventDefault();
+          const container = document.getElementById('poem-list');
+          container.style.display = (container.style.display === 'none' || container.style.display === '') ? 'block' : 'none';
+        });
+
+        // Load JSON
+        loadPoemsList();
+      });
+    </script>
   </body>
 </html>
