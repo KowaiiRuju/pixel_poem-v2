@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="css/music_player.css">
+  <script src="scripts/music_player.js" defer></script>
+</head>
+<body>
+  <div id="music-player-container">
+    <div id="music-player">
+      <div id="music-logo">
+        <img src="images/music_logo.png" alt="Music Logo" draggable="false" />
+      </div>
+      <audio id="audio" controls preload="none" tabindex="0" aria-label="Audio Player"></audio>
+      <div id="player-controls">
+        <button id="prev" aria-label="Previous Track"><span class="material-icons">skip_previous</span></button>
+        <button id="play-pause" aria-label="Play/Pause"><span class="material-icons">play_circle</span></button>
+        <button id="next" aria-label="Next Track"><span class="material-icons">skip_next</span></button>
+        <button id="minimize-btn" aria-label="Minimize Player" title="Minimize Player"><span class="material-icons">expand_less</span></button>
+      </div>
+      <span id="track-title">Now Playing: </span>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Micro+5&family=Tiny5&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(180deg, #d7ecff 0%, #ffe6f0 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Tiny5', sans-serif;
+  min-height: 100vh;        /* Changed from 110vh — no more overflow on mobile */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #5a4b42;
+  animation: fadeIn 1s ease-in-out;
+  text-align: center;
+  padding-top: 80px;        /* Space so content doesn't hide under the fixed nav/player */
+  padding-bottom: 20px;
+}
+
+/* Title with soft pastel border like a notebook tab */
+.font {
+  font-family: "Tiny5", sans-serif;
+  font-size: 4em;
+  color: #6b6bff;
+  text-shadow: 0 0 8px #ffd5e5;
+  margin-bottom: 20px;
+  padding: 15px 25px;
+  border: 2px solid #f4b6c2;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation links look like sticky tabs */
+.navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.nav-link {
+  font-family: "Micro 5", sans-serif;
+  font-size: 2.5em;
+  text-decoration: none;
+  color: #ff80ab;
+  font-weight: bold;
+  padding: 10px 15px;
+  background: #fff7fa;
+  border-radius: 8px;
+  border: 2px solid #f48fb1;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.nav-link:hover {
+  background: #ffeef8;
+  color: #6b6bff;
+  transform: scale(1.05);
+}
+
+/* Notebook-style containers with subtle lined paper effect */
+.container, #poem-list {
+  position: relative;
+  background-color: #fffdfd;
+  border: 2px solid #a0d2eb;
+  border-radius: 12px;
+  padding: 30px 20px;
+  max-width: 420px;
+  min-width: 300px;
+  margin-top: 30px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #fffdfd,
+    #fffdfd 28px,
+    #d4e5f5 30px
+  );
+  animation: fadeIn 1s ease-in-out;
+  display: none; /* Start hidden for toggling */
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+/* Tape effect (soft, washi tape style) on left and right sides */
+#poem-list::before, #poem-list::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 120px;
+  background: rgba(255, 229, 229, 0.8);
+  border: 1.5px dashed rgba(255, 182, 193, 0.6);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  z-index: 1;
+}
+#poem-list::before {
+  left: -22px;
+  transform: translateY(-50%) rotate(-6deg);
+}
+#poem-list::after {
+  right: -22px;
+  transform: translateY(-50%) rotate(6deg);
+}
+
+/* Links inside poem list like lined note entries */
+#poem-list a {
+  display: block;
+  margin: 10px 0;
+  padding: 8px 12px;
+  color: #6b6bff;
+  font-size: 1.2em;
+  background-color: #fffdfd00;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#poem-list a:hover {
+  background-color: rgba(200, 230, 255, 0.9);
+  transform: translateX(6px);
+  color: #ff80ab;
+}
+
+/* Footer in soft tones */
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #ffeef8;
+  color: #f48fb1;
+  font-family: "Tiny5", sans-serif;
+  text-align: right;
+  padding: 10px;
+  font-size: 1.1em;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 1.1em;
+    padding-top: 100px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .font {
+    font-size: 3em;
+    padding: 14px 18px;
+    max-width: 90vw;
+  }
+
+  .nav-link {
+    font-size: 2em;
+    padding: 12px 16px;
+  }
+
+  .container, #poem-list {
+    min-width: unset;
+    width: 92vw;
+    max-width: 500px;
+    padding: 24px 18px;
+    margin-top: 20px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  body {
+    font-size: 1.05em;
+    padding-top: 100px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .nav-links {
+    top: 14px !important;
+    left: 14px !important;
+  }
+
+  .nav-link {
+    font-size: 1.8em;
+    padding: 10px 14px;
+  }
+
+  .font {
+    font-size: 2.5em;
+    padding: 12px 14px;
+  }
+
+  .container, #poem-list {
+    width: 95vw;
+    padding: 18px 14px;
+  }
+
+  /* Poem list links more tappable on tiny screens */
+  #poem-list a {
+    font-size: 1.2em;
+    padding: 12px 14px;
+    margin: 8px 0;
+  }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Page</title>
+    <meta name="description" content="Welcome Traveller, ease your mind and check in to the Inn." />
+    <link rel="stylesheet" href="css/styling.css" />
+    <link rel="stylesheet" href="css/music_player.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Micro+5&family=Tiny5&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Music Player Widget -->
+    
+
+    <!-- Navigation Links -->
+    <div class="nav-links" style="margin-bottom: 50px; position: absolute; left: 30px; top: 20px; z-index: 2000;">
+      <a href="profile.html" class="nav-link">Profile</a>
+    </div>
+    <div id="music-player-container">
+      <div id="music-player">
+        
+        <audio id="audio"></audio>
+        <!-- Controls -->
+        <div id="player-controls">
+          <button id="prev">⏮️</button>
+          <button id="play-pause">▶️</button>
+          <button id="next">⏭️</button>
+          <button id="minimize-btn" title="Minimize Player">–</button>
+        </div>
+        <span id="track-title">Loading...</span>
+        <div id="music-queue" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="links" style="margin-top: 125px;">
+      <a href="#" class="nav-link" id="toggle-poems">Click Me!</a>
+    </div>
+    <div class="container" id="poem-list" style="display: none;"></div>
+
+    <script src="scripts/scripts.js" defer></script>
+    <script src="scripts/music_player.js" defer></script>
+  </body>
+</html>
