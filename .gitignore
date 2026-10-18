@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Environment and sensitive keys
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+
+# Audio downloads (large media)
+playlist/Top 10 (up to 2026)/*.mp3
+playlist/Top 10 (up to 2026)/*.m4a
+playlist/Top 10 (up to 2026)/*.opus
+playlist/Top 10 (up to 2026)/*.flac
+playlist/Top 10 YT Music/
+*.webm
+*.part
+*.ytdl
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store

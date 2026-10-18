@@ -1,239 +1,398 @@
+/* ==============================================================================
+   Pixel Poem v2 - Standalone Physical Cassette Tape on the Study Table
+   With Sunken Mechanical Hardware Deck Buttons migrated inside from
+   KowaiiRuju/songs_player (creative-route branch)
+   ============================================================================== */
+
+:root {
+  --tape-shell-bg: linear-gradient(180deg, #faf3e6 0%, #e7d8c3 100%);
+  --tape-shell-border: #6e4829;
+  --tape-label-bg: #fffdf8;
+  --tape-label-border: #d5c4ae;
+  --tape-accent: #94424f;
+  --tape-window-bg: #35241b;
+  --tape-spool-bg: #f6efe0;
+  --tape-text-main: #2e221b;
+}
+
+/* ------------------------------------------------------------------------------
+   1. STANDALONE CASSETTE TAPE POSITIONED ON BOTTOM-RIGHT OF THE WOODEN TABLE
+   ------------------------------------------------------------------------------ */
 #music-player-container {
-  display: flex;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  justify-content: flex-end;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100vw;
-  z-index: 1000;
+  position: fixed;
+  bottom: 24px;
+  right: 34px;
+  z-index: 950;
+  user-select: none;
+  transform: rotate(5deg);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+  filter: drop-shadow(0 16px 24px rgba(35, 16, 6, 0.44));
 }
 
-#music-player {
-  background: #fff7fa;
-  border: 2px solid #f4b6c2;
-  border-radius: 12px;
-  padding: 15px 20px;
-  max-width: 340px;
-  width: 100%;
-  text-align: center;
-  font-family: 'Tiny5', sans-serif;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+#music-player-container:hover {
+  transform: rotate(2deg) translateY(-3px) scale(1.02);
+  filter: drop-shadow(0 20px 30px rgba(35, 16, 6, 0.52));
+}
+
+/* ------------------------------------------------------------------------------
+   2. PHYSICAL CASSETTE TAPE SHELL
+   ------------------------------------------------------------------------------ */
+.casette-body {
   position: relative;
-  transition: all 0.25s cubic-bezier(0.4, 0.2, 0.2, 1);
-  min-width: 0;
-}
-
-
-/* Minimize Button */
-#minimize-btn {
-  background: #ff3b3b;
-  border: 2px solid #f48fb1;
-  color: rgb(47, 27, 27);
-  font-size: 1.1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 12px 16px;
-  transition: background 0.2s;
-  touch-action: manipulation;
-  margin: 0 6px;
-  min-width: 44px;
-}
-
-#minimize-btn:hover {
-  background: #cc2e2e;
-}
-
-#minimize-btn i {
-  font-size: 1.1rem;
-  line-height: 1;
-}
-
-#music-logo {
+  width: 306px;
+  height: 192px;
+  border-radius: 13px;
+  background: var(--tape-shell-bg);
+  border: 2.5px solid var(--tape-shell-border);
+  box-shadow:
+    inset 0 2px 5px rgba(255, 255, 255, 0.85),
+    inset 0 -4px 8px rgba(70, 45, 25, 0.22),
+    0 4px 0 #523319;
+  padding: 10px 12px 24px;
   display: flex;
-  justify-content: center;
-  margin: 10px 0;
-}
-
-#music-logo img {
-  width: 50px;
-  height: 50px;
-  max-width: 100%;
-  height: auto;
-}
-
-/* Audio Player Styling */
-#audio {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-/* Controls Container */
-#player-controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-/* Controls */
-#player-controls button {
-  margin: 0 5px;
-  padding: 8px 14px;
-  font-family: 'Tiny5', sans-serif;
-  font-size: 1.2rem;
-  background: #ffeef8;
-  border: 2px solid #f48fb1;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-  touch-action: manipulation;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  height: 44px;
-}
-
-#player-controls button .material-icons {
-  font-size: 1.5rem;
-  color: #6b6bff;
-}
-
-#player-controls button:hover {
-  background: #f4b6c2;
-}
-
-#player-controls button:hover .material-icons {
-  color: white;
-}
-
-/* Track title */
-#track-title {
-  margin-top: 8px;
-  color: #6b6bff;
-  font-weight: bold;
-  text-shadow: 1px 1px #ffd5e5;
-}
-
-/* Collapsed player */
-/* Update your collapsed player styling */
-#music-player.collapsed {
-  max-height: 100px; /* Slight increase to ensure controls and title fit comfortably */
+  flex-direction: column;
   overflow: hidden;
-  padding: 10px 15px;
-  min-width: 0;
 }
 
-/* Hide the logo and native audio player when minimized */
-#music-player.collapsed #music-logo,
-#music-player.collapsed audio {
-  display: none;
+/* Four Corner Screw Dots */
+.dots {
+  position: absolute;
+  height: 11px;
+  width: 11px;
+  background-color: #d7c5ae;
+  border: 1.5px solid #7d6249;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Ensure the title stays on one line and adds '...' if it's too long */
-#music-player.collapsed #track-title {
-  display: block;
-  margin-top: 8px;
+.dots::before,
+.dots::after {
+  content: "";
+  position: absolute;
+  height: 7px;
+  width: 1.5px;
+  background-color: #5c4632;
+  left: calc(50% - 0.75px);
+  top: 0.5px;
+}
+
+.dots::after {
+  transform: rotate(90deg);
+}
+
+.dots.dot-tl { top: 6px; left: 6px; }
+.dots.dot-bl { bottom: 6px; left: 6px; }
+.dots.dot-tr { top: 6px; right: 6px; }
+.dots.dot-br { bottom: 6px; right: 6px; }
+
+/* ------------------------------------------------------------------------------
+   3. CASSETTE PRINTED PAPER LABEL
+   ------------------------------------------------------------------------------ */
+.cassette-label {
+  background-color: var(--tape-label-bg);
+  border: 1.5px solid var(--tape-label-border);
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.label-descp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 4px 10px 2px;
+  position: relative;
+}
+
+.cassette-side-badge {
+  position: absolute;
+  left: 8px;
+  top: 5px;
+  font-family: monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: #35241b;
+  color: #fffdf8;
+  padding: 1px 4px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+.cassette-rule-line {
+  height: 1px;
+  background-color: rgba(184, 93, 108, 0.28);
+  width: 92%;
+  margin: 1.5px 0;
+}
+
+.cassette-name-text {
+  font-family: 'Patrick Hand', 'Nanum Pen Script', cursive;
+  font-size: 1rem;
+  color: var(--tape-text-main);
+  font-weight: 700;
+  line-height: 1.15;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+  max-width: 205px;
+  text-align: center;
+  padding-left: 24px;
 }
 
-/* Optional: Smoothly rotate your minimize icon so it acts as a maximize icon */
-#minimize-btn .material-icons {
-  transition: transform 0.3s ease;
+/* ------------------------------------------------------------------------------
+   4. CENTER ACRYLIC WINDOW & SPINNING SPOOLS
+   ------------------------------------------------------------------------------ */
+.cassette-player-window {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1px 0;
 }
 
-#music-player.collapsed #minimize-btn .material-icons {
-  transform: rotate(180deg); /* Flips the icon upside down */
+.tape-bay {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 46px;
+  width: 80%;
+  border-radius: 23px;
+  background-color: var(--tape-window-bg);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.65);
+  padding: 0 7px;
+  border: 1.5px solid #221610;
 }
-/* Responsive styles for mobile */
-@media (max-width: 600px) {
+
+.circle {
+  overflow: hidden;
+  position: relative;
+  height: 34px;
+  width: 34px;
+  background-color: var(--tape-spool-bg);
+  border-radius: 50%;
+  border: 2px solid #dfd3bf;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.35);
+  z-index: 5;
+}
+
+@keyframes tape-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#cassetteBody.playing .circle {
+  animation: tape-spin 2.4s infinite linear;
+}
+
+#cassetteBody:not(.playing) .circle {
+  animation-play-state: paused;
+}
+
+.teeth {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #5c5046;
+  border-radius: 1px;
+}
+
+.teeth:nth-child(1) { top: 3px; left: calc(50% - 2.5px); }
+.teeth:nth-child(2) { bottom: 3px; left: calc(50% - 2.5px); }
+.teeth:nth-child(3) { left: 3px; top: calc(50% - 2.5px); }
+.teeth:nth-child(4) { right: 3px; top: calc(50% - 2.5px); }
+
+.visor {
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 11px;
+  height: 22px;
+  width: 86px;
+  background-color: rgba(235, 226, 212, 0.85);
+  border-radius: 4px;
+  border: 1px solid rgba(80, 60, 45, 0.35);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.inner-circle {
+  position: absolute;
+  height: 36px;
+  width: 36px;
+  background-color: #4a382c;
+  border-radius: 50%;
+  top: -7px;
+  left: -12px;
+  opacity: 0.82;
+}
+
+.inner-circle:nth-child(2) {
+  left: inherit;
+  right: -12px;
+}
+
+/* ------------------------------------------------------------------------------
+   5. SUNKEN MECHANICAL HARDWARE DECK BUTTONS (PORTED FROM KOWAII RUJU / SONGS_PLAYER)
+   Migrated directly inside the Cassette's bottom stripe (.label-color)
+   ------------------------------------------------------------------------------ */
+.label-color {
+  background: linear-gradient(135deg, #94424f 0%, #c86d77 55%, #de8e80 100%);
+  height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1.5px solid rgba(75, 25, 32, 0.3);
+  padding: 3px 8px;
+}
+
+.hardware-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Sunken Metallic Deck Buttons Container from KowaiiRuju/songs_player */
+.deck-buttons-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 2px;
+  background: #cecece;
+  padding: 4px 5px;
+  border-radius: 6px;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.65),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  border: 1px solid #8c8c8c;
+}
+
+/* Mechanical Hardware Key (.deck-btn) from KowaiiRuju/songs_player */
+.deck-btn {
+  appearance: none;
+  outline: none;
+  border: 1px solid #a0a0a0;
+  background: linear-gradient(to bottom, #ffffff 0%, #e4e4e4 100%);
+  color: #2c2c2c;
+  height: 26px;
+  padding: 0 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    0 2px 2px rgba(0, 0, 0, 0.2);
+  border-right: none;
+  transition: background 0.1s ease, box-shadow 0.1s ease, transform 0.08s ease;
+}
+
+.deck-btn:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.deck-btn:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-right: 1px solid #a0a0a0;
+}
+
+.deck-btn i {
+  font-size: 10px;
+  color: #3b3b3b;
+}
+
+.deck-btn:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, #efefef 100%);
+}
+
+/* Physical Depressed / Latched State */
+.deck-btn:active,
+.deck-btn.pressed {
+  background: linear-gradient(to bottom, #bcbcbc 0%, #d6d6d6 100%);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.38);
+  color: #1f1f1f;
+  padding-top: 2px;
+}
+
+.deck-btn.pressed i {
+  color: #94424f;
+}
+
+/* ------------------------------------------------------------------------------
+   6. BOTTOM TRAPEZOID MAGNETIC TAPE HEAD SHIELD
+   ------------------------------------------------------------------------------ */
+.cassette-head-trapezoid {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 194px;
+  height: 20px;
+  background: linear-gradient(180deg, #dfd0ba 0%, #cbb89e 100%);
+  border-top: 2px solid #8a6d50;
+  border-left: 2px solid #8a6d50;
+  border-right: 2px solid #8a6d50;
+  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 22px;
+}
+
+.head-hole {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4e341e;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.head-pin {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6b4b30;
+}
+
+/* ------------------------------------------------------------------------------
+   7. MOBILE LANDSCAPE RESPONSIVENESS
+   ------------------------------------------------------------------------------ */
+@media (max-width: 950px), (max-height: 520px) {
   #music-player-container {
-    position: absolute;
-    top: 10px;
+    bottom: 8px;
     right: 8px;
-    left: auto;
-    width: auto;
-    max-width: 90vw;
-    min-width: 0;
-    z-index: 1000;
-  }
-  #music-player {
-    max-width: 95vw;
-    width: 100%;
-    padding: 16px 14px;
-    font-size: 1rem;
-    min-width: 0;
-  }
-  #music-logo img {
-    width: 60px;
-    height: 60px;
-  }
-  #player-controls button {
-    font-size: 1.1rem;
-    padding: 12px 16px;
-    margin: 0 6px;
-    min-width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #player-controls button .material-icons {
-    font-size: 1.5rem;
-    color: #6b6bff;
-  }
-  #track-title {
-    font-size: 1rem;
-    margin-top: 10px;
-    word-break: break-word;
-  }
-  #audio {
-    width: 100%;
-    min-width: 0;
-    height: 40px;
+    transform: rotate(3deg) scale(0.54);
+    transform-origin: bottom right;
+    z-index: 200;
   }
 }
 
-/* Very small phones — bigger but still functional */
-@media (max-width: 480px) {
+@media (max-height: 420px) {
   #music-player-container {
-    width: auto;
-    max-width: 88vw;
-    top: 8px;
+    bottom: 6px;
     right: 6px;
-  }
-  #music-player {
-    padding: 14px 12px;
-    font-size: 0.95rem;
-  }
-  #music-logo img {
-    width: 50px;
-    height: 50px;
-  }
-  #player-controls button {
-    font-size: 1rem;
-    padding: 10px 14px;
-    margin: 0 4px;
-    min-width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #player-controls button .material-icons {
-    font-size: 1.3rem;
-    color: #6b6bff;
-  }
-  #track-title {
-    font-size: 0.95rem;
+    transform: rotate(2deg) scale(0.5);
+    transform-origin: bottom right;
   }
 }
+

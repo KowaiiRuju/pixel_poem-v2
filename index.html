@@ -3,159 +3,490 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome Page</title>
-    <meta name="description" content="Welcome Traveller, ease your mind and check in to the Inn." />
+    <title>Poetic Journal &amp; Showcase</title>
+    <meta name="description" content="Welcome Traveller, ease your mind and browse this handwritten poetic journal on a cozy study table." />
     
+    <!-- Design System & Stylesheets -->
     <link rel="stylesheet" href="css/styling.css" />
     <link rel="stylesheet" href="css/music_player.css" />
     
+    <!-- Google Fonts & FontAwesome for Hardware Deck Buttons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Micro+5&family=Tiny5&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Edu+NSW+ACT+Cursive:wght@400..700&family=Indie+Flower&family=Inter:wght@600;700&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-    <style>
-      /* --- MODAL SHARED STYLING --- */
-      dialog.custom-modal {
-        border: 2px solid #a0d2eb;
-        background-color: #fffdfd;
-        background-image: repeating-linear-gradient(
-          to bottom,
-          #fffdfd,
-          #fffdfd 28px,
-          #d4e5f5 30px
-        );
-        color: #5a4b42;
-        padding: 30px 20px;
-        border-radius: 12px;
-        max-width: 500px;
-        width: 90%;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        margin: auto;
-      }
-
-      dialog.custom-modal::backdrop {
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(4px);
-      }
-
-      .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        background: none;
-        border: none;
-        color: #ff80ab;
-        font-size: 2rem;
-        cursor: pointer;
-        font-family: 'Tiny5', sans-serif;
-        transition: transform 0.2s ease;
-      }
-
-      .close-btn:hover {
-        transform: scale(1.2);
-        color: #ff3b3b;
-      }
-
-      dialog:not([open]) {
-        display: none;
-      }
-
-      /* Poem Modal Specifics */
-      #poem-modal-content p {
-        font-family: 'Indie Flower', cursive;
-        font-size: 1.2em;
-        text-align: center;
-        margin: 0;
-        line-height: 1.6;
-      }
-      .stanza-break {
-        height: 1.5em;
-      }
-    </style>
   </head>
   <body>
-    <div class="nav-links" style="position: absolute; left: 30px; top: 20px; z-index: 2000;">
-      <a href="#" id="open-profile" class="nav-link">Profile</a>
+    <!-- =========================================================================
+         0. MOBILE PORTRAIT LANDSCAPE PROMPT OVERLAY
+         Covers the screen when on a mobile device in portrait mode
+         ========================================================================= -->
+    <div id="landscape-prompt-overlay" class="landscape-prompt-overlay" role="dialog" aria-live="polite" aria-label="Rotate device to landscape">
+      <div class="landscape-prompt-card">
+        <div class="rotate-phone-graphic" aria-hidden="true">
+          <div class="phone-outline">
+            <span class="phone-notch"></span>
+            <span class="phone-screen-icon">📖</span>
+          </div>
+          <span class="rotate-arrow-hint">↻</span>
+        </div>
+        <h2 class="landscape-title">Rotate to Landscape Mode</h2>
+        <p class="landscape-sub">
+          This study table &amp; open poetic journal are crafted for a wide view. Please turn your phone sideways to explore the desk!
+        </p>
+      </div>
     </div>
 
-    <div id="music-player-container">
-      <div id="music-player">
-        <div id="music-logo">
-          <img src="images/music_logo.png" alt="Music Logo" draggable="false" />
+    <!-- =========================================================================
+         STUDY TABLE SCENE
+         Top-Left: Physical Student / Inn Keeper ID Card on Lanyard
+         Left (Moved Up): Top-Down Ceramic Coffee Mug on Cork Coaster with Volumetric Blob Smoke
+         Center: Angled Closed Book -> Straightened Open 3D Multi-Sheet Book
+         Bottom-Right: Standalone Physical Cassette Tape with Sunken Hardware Deck Buttons Inside
+         ========================================================================= -->
+    <main class="study-desk-scene">
+
+      <!-- 1. TOP-LEFT: PHYSICAL ID CARD ON LANYARD (CLICKS TO OPEN 3D FLIPPING ID MODAL) -->
+      <div id="desk-id-card" class="desk-id-prop" role="button" tabindex="0" aria-label="Inspect ID Card Profile" title="Click to inspect &amp; flip ID Card">
+        <!-- Woven Lanyard Strap & Metal Lobster Clasp -->
+        <div class="lanyard-strap-wrap" aria-hidden="true">
+          <div class="lanyard-strap-left"></div>
+          <div class="lanyard-strap-right"></div>
+          <div class="lanyard-collar"></div>
+          <div class="lanyard-ring"></div>
+          <div class="lanyard-hook"></div>
         </div>
-        <audio id="audio" preload="none" tabindex="0" aria-label="Audio Player"></audio>
-        <div id="player-controls">
-          <button id="prev" aria-label="Previous Track"><span class="material-icons">skip_previous</span></button>
-          <button id="play-pause" aria-label="Play/Pause"><span class="material-icons">play_circle</span></button>
-          <button id="next" aria-label="Next Track"><span class="material-icons">skip_next</span></button>
-          <button id="minimize-btn" aria-label="Minimize Player" title="Minimize Player"><span class="material-icons">expand_less</span></button>
+
+        <!-- Laminated Acrylic ID Card -->
+        <div class="id-card-sleeve">
+          <div class="id-slot-punch"></div>
+          <div class="id-card-inner">
+            <div class="id-card-header-band">
+              <span class="id-header-crest">✦</span>
+              <span class="id-header-title">INN KEEPER ID</span>
+            </div>
+            <div class="id-card-photo-box">
+              <img src="images/pfp_emman.jpg" alt="Pogi UwU" draggable="false" />
+            </div>
+            <div class="id-card-meta">
+              <div class="id-card-name">Pogi UwU</div>
+              <div class="id-card-course">BS Computer Science</div>
+              <div class="id-card-number">ID NO. 2003-1224</div>
+            </div>
+            <div class="id-card-barcode" aria-hidden="true"></div>
+          </div>
         </div>
-        <span id="track-title">Now Playing: </span>
-        <div id="music-queue" style="display:none;"></div>
-      </div>
-    </div>
-
-    <dialog id="profile-modal" class="custom-modal">
-      <button class="close-btn" id="close-profile">×</button>
-      
-      <h1 class="floating-letters" style="text-align: center; font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Inn Keeper's Profile</h1>
-      <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-        <img class="pfp" src="images/pfp_emman.jpg" alt="Profile Picture" draggable="false" style="width: 120px; border-radius: 12px; border: 2px solid #a0d2eb;"/>
       </div>
 
-      <div style="text-align: left; font-family: 'Tiny5', sans-serif;">
-        <p>Name: <em>Pogi UwU</em></p>
-        <p>Age: <em id="age"></em></p> 
-        <p>Course:<em> BS Computer Science</em></p>
-        <p>Race: <em>Human</em></p>
-        <p>Gender:<em> M</em></p>
+      <!-- 2. LEFT-BOTTOM (MOVED UP): TOP-DOWN COFFEE MUG ON CORK COASTER WITH VOLUMETRIC BLOB + PLUME SMOKE -->
+      <div id="desk-coffee" class="desk-coffee-prop" aria-label="Hot Coffee Mug on Coaster">
+        <!-- Subtle Coffee Stain Ring on Wood -->
+        <div class="coffee-wood-stain" aria-hidden="true"></div>
+
+        <!-- Round Cork Coaster -->
+        <div class="cork-coaster">
+          <!-- Ceramic Mug Handle (sticking out at 4 o'clock from top-down view) -->
+          <div class="mug-handle-topdown"></div>
+
+          <!-- Top-Down Ceramic Mug Rim with Inner Wall Depth -->
+          <div class="mug-rim-topdown">
+            <div class="mug-inner-lip">
+              <!-- Hot Dark Roast Coffee & Rich Crema Swirl -->
+              <div class="coffee-liquid-topdown">
+                <div class="coffee-crema-ring"></div>
+                <div class="coffee-foam-patch"></div>
+                <div class="coffee-swirl-art"></div>
+                <div class="coffee-gloss-arc"></div>
+                <div class="coffee-micro-bubbles"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Volumetric Soft Smoke Plumes & Blobs (Real Volume, No Noodles) -->
+        <div class="coffee-smoke-container" aria-hidden="true">
+          <span class="smoke-blob blob-1"></span>
+          <span class="smoke-blob blob-2"></span>
+          <span class="smoke-blob blob-3"></span>
+          <span class="smoke-blob blob-4"></span>
+          <span class="smoke-blob blob-5"></span>
+          <span class="smoke-blob blob-6"></span>
+          <svg class="smoke-plume-svg" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="plumeGrad1" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fffdf9" stop-opacity="0.58" />
+                <stop offset="55%" stop-color="#fff8ee" stop-opacity="0.28" />
+                <stop offset="100%" stop-color="#fff8ee" stop-opacity="0" />
+              </radialGradient>
+              <filter id="smokeBlur" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="5.5" />
+              </filter>
+            </defs>
+            <g filter="url(#smokeBlur)">
+              <!-- Volumetric Organic Cloud Plume 1 -->
+              <path class="svg-smoke-cloud cloud-a" fill="url(#plumeGrad1)"
+                d="M78 152 C58 142 52 118 68 100 C84 82 64 58 76 38 C86 22 108 26 106 46 C104 66 118 88 102 112 C90 128 92 146 78 152 Z" />
+              <!-- Volumetric Organic Cloud Plume 2 -->
+              <path class="svg-smoke-cloud cloud-b" fill="url(#plumeGrad1)"
+                d="M96 146 C116 132 120 106 102 88 C84 70 104 46 90 26 C78 10 58 18 64 38 C70 58 56 84 74 108 C86 124 82 140 96 146 Z" />
+            </g>
+          </svg>
+        </div>
       </div>
 
-      <h2 style="border-bottom: 1px dashed #a0d2eb; padding-bottom: 5px; font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Bio</h2>
-      <p style="color: #5a4b42">
-        <em>
-          Born on December 24, 2003, he had always been easy-going. He didn't
-          strive for anything. But now that he's actively pursuing something,
-          only God can tell what lies ahead of him.
-        </em>
-      </p>
+      <!-- 3. CENTER: 3D BOOK SHOWCASE (ANGLED WHEN CLOSED, STRAIGHTENED WHEN OPEN) -->
+      <div class="desk-center-stage">
+        <div id="book-stage" class="book-stage is-closed">
+          
+          <!-- Back Leather Binder Base & Stacked Paper Thickness -->
+          <div class="book-leather-base">
+            <!-- Left & Right Stacked Paper Edges (Visible when book is open) -->
+            <div class="paper-stack-left"></div>
+            <div class="paper-stack-right"></div>
 
-      <h2 style="font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Other Information</h2>
-      <p>Likes: <em>Chocolate, RPG Games</em></p>
-      <p>Hobbies: <em> Chess, 2D Art Illustration</em></p>
+            <!-- Central Book Spine Crease & Red Silk Bookmark Ribbon -->
+            <div class="book-center-gutter" aria-hidden="true"></div>
+            <div class="book-silk-ribbon" aria-hidden="true"></div>
 
-      <h2 style="font-family: 'Edu NSW ACT Cursive', cursive; color: #6b6bff;">Socials</h2>
-      <div style="display: flex; justify-content: space-evenly; margin-top: 10px;">
-        <a class="soc-links" href="https://github.com/KowaiiRuju/"><img src="images/icons8-github-32.png" alt="github" /></a>
-        <a class="soc-links" href="#"><img src="images/icons8-instagram-old-32.png" alt="Instagram" /></a>
+            <!-- Snap Close Leather Clasp on Right Edge of Open Book -->
+            <button id="close-journal-clasp" class="journal-edge-clasp" aria-label="Snap Book Closed" title="Snap book closed">
+              <span class="clasp-leather-band">
+                <span class="clasp-brass-stud"></span>
+                <span class="clasp-band-label">Close Book</span>
+              </span>
+            </button>
+
+            <!-- 3D SHEET STACK CONTAINER (DYNAMICALLY POPULATED BY JS) -->
+            <div id="book-sheets-viewport" class="book-sheets-viewport">
+              
+              <!-- Static Base Left Page (Revealed when Sheet 0 Cover flips open: Acknowledgement) -->
+              <div class="book-base-left-page" id="base-page-acknowledgement">
+                <div class="page-paper-surface page-left-surface">
+                  <div class="acknowledgement-wrap">
+                    <h2 class="ack-heading">Acknowledgement</h2>
+                    <div class="ack-flourish">❦ ❧</div>
+                    <div class="ack-dedication">
+                      <p>To my Younger self,</p>
+                      <p>And, those whom I shared life with.</p>
+                    </div>
+                    <div class="ack-signature">— Emman</div>
+                  </div>
+                  <div class="book-page-number">i</div>
+
+                  <!-- Clickable corner to close the book from the very first spread -->
+                  <div id="corner-close-book" class="page-curl-corner curl-bottom-left" role="button" tabindex="0" title="Close Book" aria-label="Close Book">
+                    <div class="curl-fold"></div>
+                    <span class="curl-glyph">◂</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Static Base Right Page (Underneath the final sheet) -->
+              <div class="book-base-right-page" id="base-page-end">
+                <div class="page-paper-surface page-right-surface">
+                  <div class="endpaper-fin">
+                    <div class="ack-flourish">❦</div>
+                    <p class="fin-text">Finis</p>
+                    <p class="fin-sub">Inn Keeper’s Collection</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dynamic 3D Double-Sided Turning Sheets (.book-sheet) are injected here -->
+              <div id="book-sheets-stack" class="book-sheets-stack"></div>
+
+              <!-- Front Hardcover Sheet (Flips -180deg when opening the book) -->
+              <div id="book-front-cover-sheet" class="book-cover-sheet" role="button" tabindex="0" aria-label="Click to Open Book" title="Click to open book">
+                <!-- Front Face of Closed Leather Cover -->
+                <div class="cover-face-front">
+                  <div class="closed-spine-edge">
+                    <span class="spine-rib"></span>
+                    <span class="spine-rib"></span>
+                    <span class="spine-rib"></span>
+                    <span class="spine-rib"></span>
+                  </div>
+                  <div class="closed-cover-face">
+                    <div class="cover-stitch-border"></div>
+                    <div class="cover-plaque">
+                      <div class="cover-plaque-inner">
+                        <div class="cover-ornament top-ornament">❦ ❧</div>
+                        <h1 class="cover-main-title">Poetic Journal</h1>
+                        <p class="cover-subtitle">Handwritten Verses &amp; Musings</p>
+                        <div class="cover-rule"></div>
+                        <p class="cover-author">Emman</p>
+                        <div class="cover-ornament bottom-ornament">❧ ❦</div>
+                      </div>
+                    </div>
+
+                    <div class="book-clasp" id="open-book-clasp">
+                      <div class="clasp-strap">
+                        <span class="clasp-buckle"></span>
+                        <span class="clasp-text">Open Book ➔</span>
+                      </div>
+                    </div>
+
+                    <div class="closed-ribbon-tail"></div>
+                  </div>
+                  <div class="closed-paper-edges"></div>
+                </div>
+
+                <!-- Inside Face of Front Cover (Backed behind Acknowledgement when open) -->
+                <div class="cover-face-inside"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
 
-      <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; font-family: 'Tiny5', sans-serif; opacity: 0.7;">"Everything Goes On"</p>
+      <!-- 4. BOTTOM-RIGHT: STANDALONE PHYSICAL CASSETTE TAPE WITH SUNKEN HARDWARE DECK BUTTONS MIGRATED INSIDE -->
+      <div id="music-player-container" aria-label="Cassette Tape Music Player">
+        <audio id="audio" preload="none" aria-label="Audio Player"></audio>
+
+        <div class="casette-body" id="cassetteBody">
+          <!-- Four Corner Screw Dots -->
+          <div class="dots dot-tl"></div>
+          <div class="dots dot-bl"></div>
+          <div class="dots dot-tr"></div>
+          <div class="dots dot-br"></div>
+
+          <div class="cassette-label" id="cassetteLabel">
+            <!-- Top Handwritten Song Title Strip on the Tape Label -->
+            <div class="label-descp">
+              <div class="cassette-side-badge">SIDE A</div>
+              <div class="cassette-rule-line"></div>
+              <div id="cassetteName" class="cassette-name-text">Kitchie Nadal - Same Ground</div>
+              <div id="track-title" class="sr-only">Kitchie Nadal - Same Ground</div>
+              <div class="cassette-rule-line"></div>
+            </div>
+            
+            <!-- Center Acrylic Spool Window -->
+            <div class="cassette-player-window">
+              <div class="tape-bay">
+                <!-- Left Spool with 4 teeth -->
+                <div class="circle" id="circle1">
+                  <div class="teeth"></div>
+                  <div class="teeth"></div>
+                  <div class="teeth"></div>
+                  <div class="teeth"></div>
+                </div>
+                <!-- Visor Window with magnetic tape rolls -->
+                <div class="visor">
+                  <div class="inner-circle" id="inner-circle"></div>
+                  <div class="inner-circle" id="inner-circle2"></div>
+                </div>
+                <!-- Right Spool with 4 teeth -->
+                <div class="circle" id="circle2">
+                  <div class="teeth"></div>
+                  <div class="teeth"></div>
+                  <div class="teeth"></div>
+                  <div class="teeth"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Stripe with Actual Hardware Deck Buttons from KowaiiRuju/songs_player (creative-route) Migrated Inside -->
+            <div class="label-color" id="cassetteColor">
+              <div class="hardware-controls" id="player-controls">
+                <div class="deck-buttons-container">
+                  <button id="play-pause" class="deck-btn" aria-label="Play or Pause" title="Play / Pause">
+                    <i id="deck-play-icon" class="fa-solid fa-play"></i>
+                    <span id="deck-play-label">PLAY</span>
+                    <span class="material-icons sr-only">play_circle</span>
+                  </button>
+                  <button id="prev" class="deck-btn" aria-label="Rewind / Previous Song" title="Previous Song">
+                    <i class="fa-solid fa-backward-fast"></i>
+                    <span>REW</span>
+                  </button>
+                  <button id="next" class="deck-btn" aria-label="Fast Forward / Next Song" title="Next Song">
+                    <i class="fa-solid fa-forward-fast"></i>
+                    <span>FF</span>
+                  </button>
+                  <button id="stop-btn" class="deck-btn" aria-label="Stop Audio" title="Stop">
+                    <i class="fa-solid fa-square"></i>
+                    <span>STOP</span>
+                  </button>
+                  <button id="mute-btn" class="deck-btn" aria-label="Mute / Unmute" title="Mute / Unmute">
+                    <i id="deck-mute-icon" class="fa-solid fa-volume-high"></i>
+                    <span class="material-icons sr-only">volume_up</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Trapezoid Magnetic Head Shield -->
+          <div class="cassette-head-trapezoid" aria-hidden="true">
+            <span class="head-hole"></span>
+            <span class="head-hole"></span>
+            <span class="head-pin"></span>
+            <span class="head-pin"></span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- =========================================================================
+         5. INTERACTIVE 3D FLIPPING ID CARD MODAL (FRONT & BACK OF PHYSICAL ID)
+         ========================================================================= -->
+    <dialog id="profile-modal" class="id-badge-modal">
+      <button type="button" class="id-close-pill" id="close-profile" aria-label="Close ID Card">✕</button>
+      <div class="id-modal-stage">
+
+        <!-- 3D Flipping Laminated ID Card -->
+        <div id="id-flip-card" class="id-flip-card" tabindex="0" role="region" aria-label="Interactive 3D Flipping ID Card">
+          
+          <!-- ================= FRONT FACE OF ID CARD (PORTRAIT) ================= -->
+          <div class="id-card-face id-face-front">
+            <!-- Top Lanyard Slot Punch & Clip Graphic -->
+            <div class="modal-slot-punch" aria-hidden="true"></div>
+
+            <!-- Official Green & Gold Header Band -->
+            <div class="modal-id-banner">
+              <span class="banner-crest">✦</span>
+              <div class="banner-titles">
+                <span class="banner-org">POETIC JOURNAL GUILD</span>
+                <span class="banner-role">OFFICIAL INN KEEPER IDENTIFICATION</span>
+              </div>
+              <span class="banner-crest">✦</span>
+            </div>
+
+            <!-- Portrait Photo & Holographic Seal -->
+            <div class="modal-id-photo-section">
+              <div class="modal-photo-frame">
+                <img src="images/pfp_emman.jpg" alt="Pogi UwU" draggable="false" />
+                <span class="hologram-seal" title="Guild Holographic Seal">❦</span>
+              </div>
+              <div class="modal-id-serial">ID NO. 2003-1224</div>
+            </div>
+
+            <!-- Name, Title, and Vital Fields -->
+            <div class="modal-id-front-fields">
+              <div class="id-name-block">
+                <span class="id-field-label">NAME / ALIAS</span>
+                <span class="id-field-val primary-val">Pogi UwU</span>
+                <span class="id-field-val course-val">BS Computer Science</span>
+              </div>
+
+              <div class="id-field-row-grid">
+                <div class="id-field-group">
+                  <span class="id-field-label">AGE</span>
+                  <span class="id-field-val" id="age">22</span>
+                </div>
+                <div class="id-field-group">
+                  <span class="id-field-label">GENDER</span>
+                  <span class="id-field-val">M</span>
+                </div>
+                <div class="id-field-group">
+                  <span class="id-field-label">RACE</span>
+                  <span class="id-field-val">Human</span>
+                </div>
+              </div>
+
+              <div class="id-field-group full-width">
+                <span class="id-field-label">DATE OF BIRTH</span>
+                <span class="id-field-val">December 24, 2003</span>
+              </div>
+            </div>
+
+            <!-- Bottom Signature & Barcode -->
+            <div class="modal-id-front-footer">
+              <div class="id-signature-box">
+                <span class="sig-script">Emman</span>
+                <span class="sig-line">HOLDER’S SIGNATURE</span>
+              </div>
+              <div class="id-barcode-large" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- ================= BACK FACE OF ID CARD (PORTRAIT) ================= -->
+          <div class="id-card-face id-face-back">
+            <div class="modal-slot-punch" aria-hidden="true"></div>
+
+            <!-- Dark Magnetic Stripe across the top back -->
+            <div class="id-magnetic-stripe" aria-hidden="true"></div>
+
+            <div class="modal-id-back-body">
+              <!-- Bio Section -->
+              <div class="id-back-section">
+                <h2 class="id-back-heading">HOLDER BIO &amp; BACKGROUND</h2>
+                <p class="id-back-bio">
+                  Born on December 24, 2003, he had always been easy-going. He didn't strive for anything. But now that he's actively pursuing something, only God can tell what lies ahead of him.
+                </p>
+              </div>
+
+              <!-- Hobbies Section -->
+              <div class="id-back-section">
+                <h3 class="id-back-subheading">HOBBIES &amp; CRAFTS</h3>
+                <div class="id-tag-list">
+                  <span class="id-mini-tag green">🎮 Game Dev</span>
+                  <span class="id-mini-tag blue">💻 Making Software</span>
+                  <span class="id-mini-tag">♟️ Chess</span>
+                  <span class="id-mini-tag">🎨 2D Art Illustration</span>
+                </div>
+              </div>
+
+              <!-- Favorites & Socials Grid -->
+              <div class="id-back-section">
+                <h3 class="id-back-subheading">FAVORITES &amp; LIKES</h3>
+                <div class="id-tag-list">
+                  <span class="id-mini-tag rose">🍫 Chocolate</span>
+                  <span class="id-mini-tag gold">🗡️ RPG Games</span>
+                </div>
+
+                <div class="id-back-socials-wrap">
+                  <span class="id-social-label">DISPATCH LINKS:</span>
+                  <div class="id-back-socials">
+                    <a class="id-social-chip" href="https://github.com/KowaiiRuju/" target="_blank" rel="noopener noreferrer">
+                      <img src="images/icons8-github-32.png" alt="GitHub" />
+                      <span>GitHub</span>
+                    </a>
+                    <a class="id-social-chip" href="https://www.instagram.com/cabs.tar/" target="_blank" rel="noopener noreferrer">
+                      <img src="images/icons8-instagram-old-32.png" alt="Instagram" />
+                      <span>Instagram</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="id-back-footer">
+                <span class="id-motto-quote">“Everything Goes On”</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </dialog>
 
-
-    <div class="links" style="margin-top: 150px; text-align: center;">
-      <a href="#" class="nav-link" id="toggle-poems">Click Me!</a>
-    </div>
-    
-    <div class="container" id="poem-list" style="display: none; margin: 20px auto;"></div>
-
-
-    <dialog id="poem-modal" class="custom-modal">
-      <button class="close-btn" id="close-poem">×</button>
-      <h2 id="poem-modal-title" style="font-family: 'Edu NSW ACT Cursive', cursive; font-size: 2.5em; text-align: center; color: #6b6bff; margin-bottom: 20px;"></h2>
-      <div id="poem-modal-content">
-        </div>
-    </dialog>
-
+    <!-- Music Player Script -->
     <script src="scripts/music_player.js" defer></script>
+
+    <!-- 3D Multi-Sheet Book Engine, ID Flip Logic, & Mobile Orientation Check -->
     <script>
       // ---------------------------------------------------
-      // 1. AGE CALCULATOR
+      // 0. MOBILE PORTRAIT LANDSCAPE CHECK
       // ---------------------------------------------------
-      const birthDate = new Date(2003, 11, 24); // December is 11
+      const landscapeOverlay = document.getElementById("landscape-prompt-overlay");
+      function checkMobileOrientation() {
+        if (!landscapeOverlay) return;
+        const isMobileWidth = window.innerWidth <= 920 || ("ontouchstart" in window && window.innerWidth <= 1024);
+        const isPortrait = window.innerHeight > window.innerWidth;
+        if (isMobileWidth && isPortrait) {
+          landscapeOverlay.classList.add("is-active");
+        } else {
+          landscapeOverlay.classList.remove("is-active");
+        }
+      }
+      window.addEventListener("resize", checkMobileOrientation);
+      window.addEventListener("orientationchange", checkMobileOrientation);
+
+      // ---------------------------------------------------
+      // 1. AGE CALCULATOR (Dec 24, 2003)
+      // ---------------------------------------------------
+      const birthDate = new Date(2003, 11, 24);
       function calculateAge(date) {
         const today = new Date();
         let age = today.getFullYear() - date.getFullYear();
@@ -168,108 +499,487 @@
       }
 
       // ---------------------------------------------------
-      // 2. MODAL LOGIC (PROFILE & POEMS)
+      // 2. REAL 3D MULTI-SHEET BOOK ENGINE
       // ---------------------------------------------------
-      const profileModal = document.querySelector("#profile-modal");
-      const poemModal = document.querySelector("#poem-modal");
+      const bookStage = document.getElementById("book-stage");
+      const frontCoverSheet = document.getElementById("book-front-cover-sheet");
+      const openBookClasp = document.getElementById("open-book-clasp");
+      const closeJournalClasp = document.getElementById("close-journal-clasp");
+      const cornerCloseBook = document.getElementById("corner-close-book");
+      const sheetsStack = document.getElementById("book-sheets-stack");
 
-      // Setup close clicking outside bounds for any modal
-      function setupBackdropClick(modal) {
-        modal.addEventListener("click", (e) => {
-          const dim = modal.getBoundingClientRect();
-          if (e.clientX < dim.left || e.clientX > dim.right || e.clientY < dim.top || e.clientY > dim.bottom) {
-            modal.close();
+      let allPoems = [];
+      let sheetElements = [];
+      let isBookOpen = false;
+      let isAnimatingBook = false;
+      let currentSpreadIndex = 0;
+
+      function formatPoemStanzas(text) {
+        return text
+          .split("\n")
+          .map((line) => {
+            if (line.trim() === "") {
+              return `<div class="stanza-break"></div>`;
+            }
+            const escaped = line
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;");
+            return `<p>${escaped}</p>`;
+          })
+          .join("");
+      }
+
+      function createPoemPageHTML(poem, pageNum, isRightPage) {
+        if (!poem) {
+          return `
+            <div class="page-paper-surface ${isRightPage ? "page-right-surface" : "page-left-surface"}">
+              <div class="book-page-number">${pageNum}</div>
+            </div>
+          `;
+        }
+
+        const curlCornerHTML = isRightPage
+          ? `<div class="page-curl-corner curl-bottom-right" data-action="next" role="button" tabindex="0" title="Turn to next page" aria-label="Next Page">
+               <div class="curl-fold"></div>
+               <span class="curl-glyph">▸</span>
+             </div>`
+          : `<div class="page-curl-corner curl-bottom-left" data-action="prev" role="button" tabindex="0" title="Turn to previous page" aria-label="Previous Page">
+               <div class="curl-fold"></div>
+               <span class="curl-glyph">◂</span>
+             </div>`;
+
+        return `
+          <div class="page-paper-surface ${isRightPage ? "page-right-surface" : "page-left-surface"}">
+            <div class="page-edge-hit ${isRightPage ? "hit-right" : "hit-left"}" data-action="${isRightPage ? "next" : "prev"}" title="${isRightPage ? "Click edge to turn forward" : "Click edge to turn back"}"></div>
+            <h2 class="reading-title">${poem.title}</h2>
+            <div class="reading-flourish">❦ ❧</div>
+            <article class="reading-body">${formatPoemStanzas(poem.text)}</article>
+            <div class="book-page-number">${pageNum}</div>
+            ${curlCornerHTML}
+          </div>
+        `;
+      }
+
+      function createTableOfContentsHTML(poems) {
+        const itemsHTML = poems
+          .map((poem, idx) => {
+            const pageNumber = idx + 1;
+            const targetSpread = Math.floor(idx / 2) + 1;
+            return `
+              <a href="#poem-${poem.id}" class="toc-row-item" data-spread="${targetSpread}" data-page="${pageNumber}">
+                <span class="toc-chapter-num">${pageNumber}.</span>
+                <span class="toc-chapter-title">${poem.title}</span>
+                <span class="toc-dots"></span>
+                <span class="toc-page-num">${pageNumber}</span>
+              </a>
+            `;
+          })
+          .join("");
+
+        return `
+          <div class="page-paper-surface page-right-surface toc-surface">
+            <div class="page-edge-hit hit-right" data-action="next" title="Click edge to turn to Page 1"></div>
+            <div class="toc-header-box">
+              <h2 class="toc-heading">Table of Contents</h2>
+              <div class="toc-sub-rule"></div>
+            </div>
+            <nav class="toc-list" aria-label="Table of Contents">
+              ${itemsHTML}
+            </nav>
+            <div class="book-page-number">ii</div>
+            <div class="page-curl-corner curl-bottom-right" data-action="next" role="button" tabindex="0" title="Turn to Page 1" aria-label="Next Page">
+              <div class="curl-fold"></div>
+              <span class="curl-glyph">▸</span>
+            </div>
+          </div>
+        `;
+      }
+
+      function buildBookSheets(poems) {
+        if (!sheetsStack) return;
+        sheetsStack.innerHTML = "";
+        sheetElements = [];
+
+        const totalSheets = Math.ceil(poems.length / 2) + 1;
+
+        for (let s = 0; s < totalSheets; s++) {
+          const sheetEl = document.createElement("div");
+          sheetEl.className = "book-sheet";
+          sheetEl.dataset.sheetIndex = s;
+
+          let frontHTML = "";
+          let backHTML = "";
+
+          if (s === 0) {
+            frontHTML = createTableOfContentsHTML(poems);
+            backHTML = createPoemPageHTML(poems[0], 1, false);
+          } else {
+            const frontPoemIdx = s * 2 - 1;
+            const backPoemIdx = s * 2;
+            frontHTML = createPoemPageHTML(poems[frontPoemIdx], frontPoemIdx + 1, true);
+            if (backPoemIdx < poems.length) {
+              backHTML = createPoemPageHTML(poems[backPoemIdx], backPoemIdx + 1, false);
+            } else {
+              backHTML = `
+                <div class="page-paper-surface page-left-surface">
+                  <div class="page-edge-hit hit-left" data-action="prev" title="Turn back"></div>
+                  <div class="endpaper-fin">
+                    <div class="ack-flourish">❦ ❧</div>
+                    <p class="fin-text">Notes &amp; Reflections</p>
+                  </div>
+                  <div class="book-page-number">${backPoemIdx + 1}</div>
+                  <div class="page-curl-corner curl-bottom-left" data-action="prev" role="button" tabindex="0" title="Previous Page">
+                    <div class="curl-fold"></div>
+                    <span class="curl-glyph">◂</span>
+                  </div>
+                </div>
+              `;
+            }
+          }
+
+          sheetEl.innerHTML = `
+            <div class="sheet-face sheet-front">${frontHTML}</div>
+            <div class="sheet-face sheet-back">${backHTML}</div>
+          `;
+
+          sheetsStack.appendChild(sheetEl);
+          sheetElements.push(sheetEl);
+        }
+
+        sheetsStack.addEventListener("click", (e) => {
+          const tocItem = e.target.closest(".toc-row-item");
+          if (tocItem) {
+            e.preventDefault();
+            const targetSpread = parseInt(tocItem.dataset.spread, 10);
+            if (!isNaN(targetSpread)) {
+              riffleToSpread(targetSpread);
+            }
+            return;
+          }
+
+          const actionEl = e.target.closest("[data-action]");
+          if (actionEl) {
+            e.preventDefault();
+            const action = actionEl.dataset.action;
+            if (action === "next") turnNextSpread();
+            else if (action === "prev") turnPrevSpread();
+            else if (action === "toc") riffleToSpread(0);
+          }
+        });
+
+        updateSheetZIndices();
+      }
+
+      function updateSheetZIndices() {
+        const total = sheetElements.length;
+        sheetElements.forEach((sheet, idx) => {
+          const isFlipped = idx < currentSpreadIndex;
+          if (isFlipped) {
+            sheet.classList.add("is-flipped");
+            sheet.style.zIndex = 10 + idx;
+          } else {
+            sheet.classList.remove("is-flipped");
+            sheet.style.zIndex = 10 + (total - idx);
           }
         });
       }
 
-      // ---------------------------------------------------
-      // 3. POEM FETCHING & RENDERING LOGIC
-      // ---------------------------------------------------
-      async function loadPoemsList() {
-        const container = document.getElementById('poem-list');
-        try {
-          const response = await fetch('res/poems.json');
-          const poems = await response.json();
+      function turnNextSpread() {
+        if (!isBookOpen || isAnimatingBook) return;
+        const maxSpread = Math.ceil(allPoems.length / 2);
+        if (currentSpreadIndex >= maxSpread) return;
 
-          container.innerHTML = ''; // Clear
-          poems.forEach(poem => {
-            const link = document.createElement('a');
-            link.className = 'poem-link';
-            link.href = "#"; // Prevent navigation
-            link.textContent = `${poem.id}. ${poem.title}`;
-            link.style.display = 'block';
-            link.style.margin = '10px 0';
-            link.style.fontFamily = "'Tiny5', sans-serif";
-            link.style.fontSize = "1.3em";
+        const sheetToFlip = sheetElements[currentSpreadIndex];
+        if (!sheetToFlip) return;
 
-            // When clicked, open the modal instead of new page
-            link.addEventListener('click', (e) => {
-              e.preventDefault();
-              openPoemModal(poem);
-            });
+        isAnimatingBook = true;
+        sheetToFlip.style.zIndex = 60;
+        sheetToFlip.classList.add("is-turning", "is-flipped");
+        currentSpreadIndex++;
 
-            container.appendChild(link);
+        setTimeout(() => {
+          sheetToFlip.classList.remove("is-turning");
+          updateSheetZIndices();
+          isAnimatingBook = false;
+        }, 620);
+      }
+
+      function turnPrevSpread() {
+        if (!isBookOpen || isAnimatingBook) return;
+        if (currentSpreadIndex <= 0) {
+          closeBook();
+          return;
+        }
+
+        currentSpreadIndex--;
+        const sheetToUnflip = sheetElements[currentSpreadIndex];
+        if (!sheetToUnflip) return;
+
+        isAnimatingBook = true;
+        sheetToUnflip.style.zIndex = 60;
+        sheetToUnflip.classList.add("is-turning");
+        sheetToUnflip.classList.remove("is-flipped");
+
+        setTimeout(() => {
+          sheetToUnflip.classList.remove("is-turning");
+          updateSheetZIndices();
+          isAnimatingBook = false;
+        }, 620);
+      }
+
+      function riffleToSpread(targetSpread) {
+        if (!isBookOpen || isAnimatingBook || targetSpread === currentSpreadIndex) return;
+        isAnimatingBook = true;
+
+        const stepDirection = targetSpread > currentSpreadIndex ? 1 : -1;
+        const stepsCount = Math.abs(targetSpread - currentSpreadIndex);
+        const stepInterval = Math.max(70, Math.min(130, Math.floor(420 / stepsCount)));
+
+        let step = 0;
+        function doNextRiffleStep() {
+          if (step >= stepsCount) {
+            setTimeout(() => {
+              sheetElements.forEach((s) => s.classList.remove("is-turning"));
+              updateSheetZIndices();
+              isAnimatingBook = false;
+            }, 560);
+            return;
+          }
+
+          if (stepDirection > 0) {
+            const sheet = sheetElements[currentSpreadIndex];
+            if (sheet) {
+              sheet.style.zIndex = 60 + step;
+              sheet.classList.add("is-turning", "is-flipped");
+            }
+            currentSpreadIndex++;
+          } else {
+            currentSpreadIndex--;
+            const sheet = sheetElements[currentSpreadIndex];
+            if (sheet) {
+              sheet.style.zIndex = 60 + step;
+              sheet.classList.add("is-turning");
+              sheet.classList.remove("is-flipped");
+            }
+          }
+
+          step++;
+          setTimeout(doNextRiffleStep, stepInterval);
+        }
+
+        doNextRiffleStep();
+      }
+
+      function openBook() {
+        if (isBookOpen || isAnimatingBook || !bookStage) return;
+        isAnimatingBook = true;
+        isBookOpen = true;
+        bookStage.classList.remove("is-closed");
+        bookStage.classList.add("is-opening", "is-open");
+
+        setTimeout(() => {
+          bookStage.classList.remove("is-opening");
+          isAnimatingBook = false;
+        }, 780);
+      }
+
+      function closeBook() {
+        if (!isBookOpen || isAnimatingBook || !bookStage) return;
+
+        if (currentSpreadIndex > 0) {
+          isAnimatingBook = true;
+          sheetElements.forEach((sheet, idx) => {
+            if (idx < currentSpreadIndex) {
+              sheet.style.zIndex = 60 - idx;
+              sheet.classList.add("is-turning");
+              sheet.classList.remove("is-flipped");
+            }
           });
-        } catch (error) {
-          container.textContent = 'Could not load poems. Make sure res/poems.json exists and you are running a local server.';
-          console.error('Error loading poems:', error);
+          currentSpreadIndex = 0;
+          setTimeout(() => {
+            sheetElements.forEach((s) => s.classList.remove("is-turning"));
+            updateSheetZIndices();
+            bookStage.classList.remove("is-open");
+            bookStage.classList.add("is-closing", "is-closed");
+            isBookOpen = false;
+            setTimeout(() => {
+              bookStage.classList.remove("is-closing");
+              isAnimatingBook = false;
+            }, 780);
+          }, 360);
+          return;
+        }
+
+        isAnimatingBook = true;
+        isBookOpen = false;
+        bookStage.classList.remove("is-open");
+        bookStage.classList.add("is-closing", "is-closed");
+
+        setTimeout(() => {
+          bookStage.classList.remove("is-closing");
+          isAnimatingBook = false;
+        }, 780);
+      }
+
+      if (frontCoverSheet) {
+        frontCoverSheet.addEventListener("click", openBook);
+        frontCoverSheet.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openBook();
+          }
+        });
+      }
+
+      if (openBookClasp) {
+        openBookClasp.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openBook();
+        });
+      }
+
+      if (closeJournalClasp) {
+        closeJournalClasp.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          closeBook();
+        });
+      }
+
+      if (cornerCloseBook) {
+        cornerCloseBook.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          closeBook();
+        });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+        const profileModal = document.getElementById("profile-modal");
+        if (profileModal && profileModal.open) return;
+
+        if (e.key === "ArrowRight") {
+          if (!isBookOpen) openBook();
+          else turnNextSpread();
+        } else if (e.key === "ArrowLeft") {
+          if (isBookOpen) turnPrevSpread();
+        }
+      });
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      if (bookStage) {
+        bookStage.addEventListener("touchstart", (e) => {
+          if (e.touches && e.touches.length === 1) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          }
+        }, { passive: true });
+
+        bookStage.addEventListener("touchend", (e) => {
+          if (e.changedTouches && e.changedTouches.length === 1) {
+            const deltaX = e.changedTouches[0].clientX - touchStartX;
+            const deltaY = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+              if (deltaX < 0) {
+                if (!isBookOpen) openBook();
+                else turnNextSpread();
+              } else {
+                if (isBookOpen) turnPrevSpread();
+              }
+            }
+          }
+        }, { passive: true });
+      }
+
+      async function loadPoems() {
+        try {
+          const res = await fetch("res/poems.json");
+          allPoems = await res.json();
+          buildBookSheets(allPoems);
+        } catch (err) {
+          console.error("Error fetching poems:", err);
         }
       }
 
-      function openPoemModal(poem) {
-        const titleEl = document.getElementById('poem-modal-title');
-        const contentEl = document.getElementById('poem-modal-content');
+      // ---------------------------------------------------
+      // 3. INTERACTIVE 3D FLIPPING ID MODAL CONTROLS
+      // ---------------------------------------------------
+      const profileModal = document.getElementById("profile-modal");
+      const deskIdCard = document.getElementById("desk-id-card");
+      const closeProfileBtn = document.getElementById("close-profile");
+      const idFlipCard = document.getElementById("id-flip-card");
 
-        titleEl.textContent = poem.title;
-        contentEl.innerHTML = ''; // Clear old poem
+      function setIdFlipped(flipped) {
+        if (!idFlipCard) return;
+        if (flipped) {
+          idFlipCard.classList.add("is-flipped");
+        } else {
+          idFlipCard.classList.remove("is-flipped");
+        }
+      }
 
-        // Format the lines beautifully
-        const lines = poem.text.split('\n');
-        lines.forEach(line => {
-          if (line.trim() === '') {
-            const spacer = document.createElement('div');
-            spacer.className = 'stanza-break';
-            contentEl.appendChild(spacer);
-          } else {
-            const p = document.createElement('p');
-            p.textContent = line;
-            contentEl.appendChild(p);
+      function toggleIdFlip() {
+        if (!idFlipCard) return;
+        setIdFlipped(!idFlipCard.classList.contains("is-flipped"));
+      }
+
+      function openIdModal() {
+        if (profileModal) {
+          setIdFlipped(false);
+          profileModal.showModal();
+        }
+      }
+
+      if (deskIdCard) {
+        deskIdCard.addEventListener("click", openIdModal);
+        deskIdCard.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openIdModal();
           }
         });
+      }
 
-        poemModal.showModal();
+      if (idFlipCard) {
+        idFlipCard.addEventListener("click", (e) => {
+          // Don't flip if clicking a social link
+          if (e.target.closest("a")) return;
+          toggleIdFlip();
+        });
+        idFlipCard.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggleIdFlip();
+          }
+        });
+      }
+
+      if (closeProfileBtn && profileModal) {
+        closeProfileBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          profileModal.close();
+        });
+      }
+
+      if (profileModal) {
+        profileModal.addEventListener("click", (e) => {
+          if (e.target === profileModal || e.target.classList.contains("id-modal-stage")) {
+            profileModal.close();
+          }
+        });
       }
 
       // ---------------------------------------------------
-      // 4. INITIALIZE EVERYTHING ON LOAD
+      // 4. INITIALIZE ON LOAD
       // ---------------------------------------------------
       document.addEventListener("DOMContentLoaded", () => {
-        // Set Age
-        const ageElement = document.getElementById("age");
-        if (ageElement) ageElement.textContent = calculateAge(birthDate);
-
-        // Profile Modal Listeners
-        document.querySelector("#open-profile").addEventListener("click", (e) => {
-          e.preventDefault();
-          profileModal.showModal();
-        });
-        document.querySelector("#close-profile").addEventListener("click", () => profileModal.close());
-        setupBackdropClick(profileModal);
-
-        // Poem Modal Listeners
-        document.querySelector("#close-poem").addEventListener("click", () => poemModal.close());
-        setupBackdropClick(poemModal);
-
-        // Toggle Poem List Button
-        document.getElementById('toggle-poems').addEventListener('click', (e) => {
-          e.preventDefault();
-          const container = document.getElementById('poem-list');
-          container.style.display = (container.style.display === 'none' || container.style.display === '') ? 'block' : 'none';
-        });
-
-        // Load JSON
-        loadPoemsList();
+        checkMobileOrientation();
+        const ageEl = document.getElementById("age");
+        if (ageEl) ageEl.textContent = calculateAge(birthDate);
+        loadPoems();
       });
     </script>
   </body>
